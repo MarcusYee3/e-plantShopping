@@ -1,4 +1,4 @@
-# e-plantShotting
+# e-plantShopping
 
 # This project outlines the front-end of a plant shop app
 
