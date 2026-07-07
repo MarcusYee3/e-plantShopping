@@ -9,27 +9,44 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    let total = 0;
+    cart.forEach((item) => {
+        // Strips the "$" from the cost string to compute numerical total safely
+        total += parseFloat(item.cost.substring(1)) * item.quantity;
+    });
+    return total;
   };
 
   const handleContinueShopping = (e) => {
-   
+    onContinueShopping(e);
   };
 
-
+  const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+  };
 
   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
-   
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+    } else {
+      // 💡 Bonus safety fallback: If quantity hits 0, remove it entirely
+      dispatch(removeItem(item.name));
+    }
   };
 
   const handleRemove = (item) => {
+    // 👇 FIXED: Passes item.name as required by your Task 4 Redux configuration
+    dispatch(removeItem(item.name));
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    // 👇 FIXED: Computes the subtotal for this specific item row
+    return parseFloat(item.cost.substring(1)) * item.quantity;
   };
 
   return (
@@ -57,12 +74,11 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        {/* 👇 FIXED: Added click action to trigger your alert window */}
+        <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
       </div>
     </div>
   );
 };
 
 export default CartItem;
-
-
